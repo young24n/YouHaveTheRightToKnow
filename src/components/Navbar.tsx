@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
+
 export default function Navbar(){
     return(
-        <div className="sticky top-0 z-50 navbar w-screen bg-base-100 min-w-[28rem] shadow-lg max-h-12">
-            
+        <div className="sticky top-0 z-50 navbar w-full bg-base-100 min-w-[28rem] shadow-lg max-h-12">
             <div className="navbar-start sm:w-[30%] md:w-[15%]">
                 <div className="dropdown">{/*햄버거바*/}
-                    <div tabIndex={0} role="button" className="btn btn-ghost sm:hidden">
+                    <div tabIndex={0} role="button" className="btn btn-ghost sm:hidden">    
                         <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5"
@@ -32,7 +33,7 @@ export default function Navbar(){
                         <li><a>Item 3</a></li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">KYR</a>{/*로그인을 안한 상태일 때 아래의 요소 모두 숨겨야함*/}
+                <Link to="/" className="btn btn-ghost text-xl">KYR</Link>{/*로그인을 안한 상태일 때 아래의 요소 모두 숨겨야함*/}
             </div>
             <div className="navbar-start hidden sm:flex sm:w-[40%]">
                 <ul className="menu menu-horizontal px-1">
