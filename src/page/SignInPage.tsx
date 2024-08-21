@@ -1,7 +1,10 @@
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import ButtonComponents from "../components/ButtonComponents";
+import { MouseEvent } from "react";
 
 function SignInPage() {
-  return (
+  return (  
     <>
     <Navbar></Navbar>
     
@@ -50,20 +53,15 @@ function SignInPage() {
             </div>
 
             <div>
-              <button
-                type="button"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign in
-              </button>
+              <ButtonComponents buttonText={"Sign in"} eventHandler={()=>{console.log("hello")}}></ButtonComponents>
             </div>
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
             계정이 아직 없으신가요?
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link to="/SignUp" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               {" 회원가입 하기"}
-            </a>
+            </Link>
           </p>
         </div>
       </div>
