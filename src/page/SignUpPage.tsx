@@ -2,7 +2,7 @@ import { useState } from "react"
 import InputComponents from "../components/InputComponent"
 import Navbar from "../components/Navbar"
 import ButtonComponents from "../components/ButtonComponents"
-
+//todo: input feedback 시 종류에 따라 border 디자인 변경할 필요가 있어 보임
 function SignUpPage() {
     const [feedbackForEmail, setFeedbackForEmail] = useState("")
     const [feedbackForVerifyCode, setFeedbackForVerifyCode] = useState("")
@@ -18,13 +18,14 @@ function SignUpPage() {
 
     const [checkLoding, setCheckLoding] = useState(false)
     const [confirmLoding, setConfirmLoading] = useState(false)
-
+    
+    //추후 기능 관련 함수는 파일을 분리하는 것이 좋아보임
     function handleEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
         const email = event.target.value
         setUserInfo((prev) => ({ ...prev, email }))
     }
 
-    //자판 배열이 한컴 입력기면 입력이 안됨
+    //CAUTION: 자판 배열이 한컴 입력기일 경우 입력이 안됨
     function handleVerifyCodeChange(event: React.ChangeEvent<HTMLInputElement>) {
         let verifyCode = event.target.value
         event.target.value = verifyCode.replace(/\D/g, '').slice(0, 6)
@@ -68,6 +69,27 @@ function SignUpPage() {
 
             return updatedUserInfo
         })
+    }
+
+    function handleVerifyCodeCheck(event: React.ChangeEvent<HTMLButtonElement>){
+        //todo: 서버 전송 후 response에 따른 제어 형식으로
+
+        // if (verifyCode.length !== 6) {
+        //     setFeedbackForVerifyCode("인증번호가 일치하지 않습니다.");
+        // } else {
+        //     setFeedbackForVerifyCode(""); // 피드백 초기화
+        // }
+    }
+
+    function handleConfirmCheck(event: React.ChangeEvent<HTMLButtonElement>){
+
+        // eamil = userinfo.eamil
+        // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // if (!emailRegex.test(email)) {
+        //     setFeedbackForEmail("이메일 형식과 일치하지 않습니다!");
+        // } else {
+        //     setFeedbackForEmail(""); // 피드백 초기화
+        // }    
     }
 
     return (
