@@ -1,4 +1,5 @@
 interface propsType{
+    type: string,
     dataType: string,
     placeholder: string,
     eventHandler: React.ChangeEventHandler<HTMLInputElement> ,
@@ -6,14 +7,14 @@ interface propsType{
 }
 
 export default function InputComponents(props :propsType){
-    const {dataType, placeholder, feedback, eventHandler} = props
+    const {type, dataType, placeholder, feedback, eventHandler} = props
 
     const feedbackClass = feedback === "완벽합니다!" ? "text-green-600" : "text-red-600";
 
     return(
         <div className="m-auto max-w-xs w-full">
             <p className="block text-sm font-semibold leading-6 text-gray-900">{dataType}</p>
-            <input type="text" placeholder={placeholder} className="input input-bordered outline-indigo-600 w-full mt-2" 
+            <input type={type} placeholder={placeholder} className="input input-bordered outline-indigo-600 w-full mt-2" 
             onChange={eventHandler}
             />
             {feedback && <p className={`block text-xs font-semibold leading-6 ${feedbackClass}`}>{feedback}</p>}
