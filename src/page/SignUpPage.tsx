@@ -71,7 +71,7 @@ function SignUpPage() {
         })
     }
 
-    function handleVerifyCodeCheck(event: React.ChangeEvent<HTMLButtonElement>){
+    function handleVerifyCodeCheck(event: React.MouseEvent<HTMLButtonElement>){
         //todo: 서버 전송 후 response에 따른 제어 형식으로
 
         // if (verifyCode.length !== 6) {
@@ -81,7 +81,7 @@ function SignUpPage() {
         // }
     }
 
-    function handleConfirmCheck(event: React.ChangeEvent<HTMLButtonElement>){
+    function handleConfirmCheck(event: React.MouseEvent<HTMLButtonElement>){
 
         // eamil = userinfo.eamil
         // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -102,14 +102,14 @@ function SignUpPage() {
                     <button
                         type="button"
                         className="flex justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 m-3"
-                        onClick={() => {}}
+                        onClick={handleVerifyCodeCheck}
                     >
                         {"Check"}
                     </button>
                 </div>
                 <InputComponents type="password" dataType="Password" placeholder="Password" feedback={feedbackForPassword} eventHandler={handlePasswordChange} />
                 <InputComponents type="password" dataType="Password Confirm" placeholder="Re-enter Password" feedback={feedbackForConfirmPassword} eventHandler={handleConfirmPasswordChange} />
-                <ButtonComponents buttonText="Confirm" eventHandler={() => { console.log(userInfo) }} />
+                <ButtonComponents buttonText="Confirm" eventHandler={handleConfirmCheck} />
             </div>
         </>
     )
