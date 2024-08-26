@@ -127,7 +127,7 @@ function SignUpPage() {
     return (
         <>
             <Navbar />
-            <div className="flex flex-col justify-center space-y-10 m-auto w-[26rem] px-9 py-12 shadow-lg rounded-xl mt-8">
+            <div className="flex flex-col justify-center space-y-7 m-auto w-[26rem] px-9 py-12 shadow-lg rounded-xl mt-8">
                 <InputComponents type="text" dataType="Email" placeholder="example@email.com" feedback={feedbackForEmail} eventHandler={handleEmailChange} />
                 <InputComponents type="text" dataType="Nick Name" placeholder="" feedback={feedbackForNickName} eventHandler={handleNickNameChange} />
                 <div className="">
