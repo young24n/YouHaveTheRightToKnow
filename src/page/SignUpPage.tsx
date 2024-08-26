@@ -2,8 +2,7 @@ import { useState } from "react"
 import InputComponents from "../components/InputComponent"
 import Navbar from "../components/Navbar"
 import ButtonComponents from "../components/ButtonComponents"
-//todo: input feedback 시 종류에 따라 border 디자인 변경할 필요가 있어 보임
-//Todo: 함수에 사용된 변수 타입 지정하기(props 타입, 변수 타입, )
+//Todo: feedback 주는 곳으로 ref 설정
 interface UserInfo{
     email: string, 
     nickName: string
@@ -50,62 +49,79 @@ function SignUpPage() {
 
     function handlePasswordChange(event: React.ChangeEvent<HTMLInputElement>) {
         const password = event.target.value
-
-        setUserInfo((prev: UserInfo) => {
-            const updatedUserInfo: UserInfo = { ...prev, password }//object는 하나하나 지정하던가 흠
-
-            // 비밀번호 확인 로직을 여기에서 바로 실행
-            if (updatedUserInfo.passwordCheck && updatedUserInfo.passwordCheck !== password) {
-                setFeedbackForConfirmPassword("비밀번호가 일치하지 않습니다.")
-            } else {
-                setFeedbackForConfirmPassword("완벽합니다!") // 피드백 초기화
-            }
-
-            return updatedUserInfo
-        })
+        setUserInfo((prev: UserInfo) => ({ ...prev, password }))
 
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
-        if (!passwordRegex.test(password)) {
+        if(!passwordRegex.test(password)) {
             setFeedbackForPassword("비밀번호는 특수문자, 숫자를 포함하여 8자 이상으로 구성해야 합니다.")
-        } else {
-            setFeedbackForPassword("완벽합니다!") // 피드백 초기화
+        } 
+        else{
+            setFeedbackForPassword("완벽합니다!")
+        }
+
+        if(userInfo.passwordCheck && userInfo.passwordCheck !== password) {
+            setFeedbackForConfirmPassword("비밀번호가 일치하지 않습니다.")
+        } 
+        else if(userInfo.passwordCheck === password && userInfo.passwordCheck !== "") {
+            setFeedbackForConfirmPassword("완벽합니다!")
+        } 
+        else{
+            setFeedbackForConfirmPassword("")
         }
     }
 
     function handleConfirmPasswordChange(event: React.ChangeEvent<HTMLInputElement>) {
         const confirmPassword = event.target.value
-        setUserInfo((prev) => {
-            const updatedUserInfo = { ...prev, passwordCheck: confirmPassword }
+        setUserInfo((prev: UserInfo) => ({ ...prev, passwordCheck: confirmPassword }))
 
-            if (confirmPassword !== updatedUserInfo.password) {
-                setFeedbackForConfirmPassword("비밀번호가 일치하지 않습니다.")
-            } else {
-                setFeedbackForConfirmPassword("완벽합니다!") // 피드백 초기화
-            }
-
-            return updatedUserInfo
-        })
+        if(confirmPassword === userInfo.password && confirmPassword !== "") {
+            setFeedbackForConfirmPassword("완벽합니다!")
+        } 
+        else if (confirmPassword !== userInfo.password && confirmPassword !== "") {
+            setFeedbackForConfirmPassword("비밀번호가 일치하지 않습니다.")
+        } 
+        else {
+            setFeedbackForConfirmPassword("")
+        }
     }
 
     function handleVerifyCodeCheck(event: React.MouseEvent<HTMLButtonElement>){
         //todo: 서버 전송 후 response에 따른 제어 형식으로
 
         // if (verifyCode.length !== 6) {
-        //     setFeedbackForVerifyCode("인증번호가 일치하지 않습니다.");
+        //     setFeedbackForVerifyCode("인증번호가 일치하지 않습니다.")
         // } else {
-        //     setFeedbackForVerifyCode("");
+        //     setFeedbackForVerifyCode("")
         // }
     }
 
-    function handleConfirmCheck(event: React.MouseEvent<HTMLButtonElement>){
-
-        // eamil = userinfo.eamil
-        // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        // if (!emailRegex.test(email)) {
-        //     setFeedbackForEmail("이메일 형식과 일치하지 않습니다!"); + 닉네임 변경사항도
-        // } else {
-        //     setFeedbackForEmail("");
-        // }    
+    function handleConfirmCheck(event: React.MouseEvent<HTMLButtonElement>) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        const nickNameRegex = /^[가-힣a-zA-Z]{2,10}$/
+    
+        // 이메일 검증
+        if(!emailRegex.test(userInfo.email)) {
+            setFeedbackForEmail("이메일 형식과 일치하지 않습니다!")
+        } 
+        else{
+            // 서버 피드백
+            setFeedbackForEmail("")
+        }    
+    
+        // 닉네임 검증
+        if(userInfo.nickName.length < 2) {
+            setFeedbackForNickName("닉네임은 최소 2자 이상이어야 합니다.")
+        } 
+        else if(userInfo.nickName.length > 10) {
+            setFeedbackForNickName("닉네임은 최대 10자까지만 입력할 수 있습니다.")
+        } 
+        else if(!nickNameRegex.test(userInfo.nickName)) {
+            setFeedbackForNickName("닉네임은 한글과 영문만 사용할 수 있습니다.")
+        } 
+        else{
+            // 서버 피드백
+            setFeedbackForNickName("")
+        }
     }
 
     return (
@@ -126,7 +142,7 @@ function SignUpPage() {
                 </div>
                 <InputComponents type="password" dataType="Password" placeholder="Password" feedback={feedbackForPassword} eventHandler={handlePasswordChange} />
                 <InputComponents type="password" dataType="Password Confirm" placeholder="Re-enter Password" feedback={feedbackForConfirmPassword} eventHandler={handleConfirmPasswordChange} />
-                <ButtonComponents buttonText="Confirm" eventHandler={handleConfirmCheck} disable={true}/>
+                <ButtonComponents buttonText="Confirm" eventHandler={handleConfirmCheck} disable={false} />
             </div>
         </>
     )
