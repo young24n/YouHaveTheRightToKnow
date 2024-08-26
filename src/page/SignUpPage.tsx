@@ -3,6 +3,15 @@ import InputComponents from "../components/InputComponent"
 import Navbar from "../components/Navbar"
 import ButtonComponents from "../components/ButtonComponents"
 //todo: input feedback 시 종류에 따라 border 디자인 변경할 필요가 있어 보임
+//Todo: 함수에 사용된 변수 타입 지정하기(props 타입, 변수 타입, )
+interface UserInfo{
+    email: string, 
+    nickName: string
+    verifyCode: string,
+    password: string, 
+    passwordCheck: string, 
+}
+
 function SignUpPage() {
     const [feedbackForEmail, setFeedbackForEmail] = useState("")
     const [feedbackForVerifyCode, setFeedbackForVerifyCode] = useState("")
