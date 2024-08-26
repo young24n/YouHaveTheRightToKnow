@@ -13,39 +13,46 @@ interface UserInfo{
 }
 
 function SignUpPage() {
-    const [feedbackForEmail, setFeedbackForEmail] = useState("")
-    const [feedbackForVerifyCode, setFeedbackForVerifyCode] = useState("")
-    const [feedbackForPassword, setFeedbackForPassword] = useState("")
-    const [feedbackForConfirmPassword, setFeedbackForConfirmPassword] = useState("")
+    const [feedbackForEmail, setFeedbackForEmail] = useState<string>("")
+    const [feedbackForVerifyCode, setFeedbackForVerifyCode] = useState<string>("")
+    const [feedbackForPassword, setFeedbackForPassword] = useState<string>("")
+    const [feedbackForConfirmPassword, setFeedbackForConfirmPassword] = useState<string>("")
+    const [feedbackForNickName, setFeedbackForNickName] = useState<string>("")
 
-    const [userInfo, setUserInfo] = useState({
+    const [userInfo, setUserInfo] = useState<UserInfo>({
         email: "", 
+        nickName: "",
         verifyCode: "",
         password: "", 
         passwordCheck: "", 
     })
 
-    const [checkLoding, setCheckLoding] = useState(false)
-    const [confirmLoding, setConfirmLoading] = useState(false)
+    const [checkLoding, setCheckLoding] = useState<boolean>(false)
+    const [confirmLoding, setConfirmLoading] = useState<boolean>(false)
     
     //추후 기능 관련 함수는 파일을 분리하는 것이 좋아보임
     function handleEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
         const email = event.target.value
-        setUserInfo((prev) => ({ ...prev, email }))
+        setUserInfo((prev: UserInfo) => ({ ...prev, email }))
+    }
+
+    function handleNickNameChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const nickName = event.target.value
+        setUserInfo((prev: UserInfo) => ({ ...prev, nickName }))
     }
 
     //CAUTION: 자판 배열이 한컴 입력기일 경우 입력이 안됨
     function handleVerifyCodeChange(event: React.ChangeEvent<HTMLInputElement>) {
-        let verifyCode = event.target.value
+        const verifyCode = event.target.value
         event.target.value = verifyCode.replace(/\D/g, '').slice(0, 6)
-        setUserInfo((prev) => ({ ...prev, verifyCode }))
+        setUserInfo((prev: UserInfo) => ({ ...prev, verifyCode }))
     }
 
     function handlePasswordChange(event: React.ChangeEvent<HTMLInputElement>) {
         const password = event.target.value
 
-        setUserInfo((prev) => {
-            const updatedUserInfo = { ...prev, password }
+        setUserInfo((prev: UserInfo) => {
+            const updatedUserInfo: UserInfo = { ...prev, password }//object는 하나하나 지정하던가 흠
 
             // 비밀번호 확인 로직을 여기에서 바로 실행
             if (updatedUserInfo.passwordCheck && updatedUserInfo.passwordCheck !== password) {
@@ -86,7 +93,7 @@ function SignUpPage() {
         // if (verifyCode.length !== 6) {
         //     setFeedbackForVerifyCode("인증번호가 일치하지 않습니다.");
         // } else {
-        //     setFeedbackForVerifyCode(""); // 피드백 초기화
+        //     setFeedbackForVerifyCode("");
         // }
     }
 
@@ -95,9 +102,9 @@ function SignUpPage() {
         // eamil = userinfo.eamil
         // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         // if (!emailRegex.test(email)) {
-        //     setFeedbackForEmail("이메일 형식과 일치하지 않습니다!");
+        //     setFeedbackForEmail("이메일 형식과 일치하지 않습니다!"); + 닉네임 변경사항도
         // } else {
-        //     setFeedbackForEmail(""); // 피드백 초기화
+        //     setFeedbackForEmail("");
         // }    
     }
 
@@ -106,6 +113,7 @@ function SignUpPage() {
             <Navbar />
             <div className="flex flex-col justify-center space-y-10 m-auto w-[26rem] px-9 py-12 shadow-lg rounded-xl mt-8">
                 <InputComponents type="text" dataType="Email" placeholder="example@email.com" feedback={feedbackForEmail} eventHandler={handleEmailChange} />
+                <InputComponents type="text" dataType="Nick Name" placeholder="" feedback={feedbackForNickName} eventHandler={handleNickNameChange} />
                 <div className="">
                     <InputComponents type="text" dataType="Verify Code" placeholder="" feedback={feedbackForVerifyCode} eventHandler={handleVerifyCodeChange} />
                     <button
@@ -118,7 +126,7 @@ function SignUpPage() {
                 </div>
                 <InputComponents type="password" dataType="Password" placeholder="Password" feedback={feedbackForPassword} eventHandler={handlePasswordChange} />
                 <InputComponents type="password" dataType="Password Confirm" placeholder="Re-enter Password" feedback={feedbackForConfirmPassword} eventHandler={handleConfirmPasswordChange} />
-                <ButtonComponents buttonText="Confirm" eventHandler={handleConfirmCheck} />
+                <ButtonComponents buttonText="Confirm" eventHandler={handleConfirmCheck} disable={true}/>
             </div>
         </>
     )
