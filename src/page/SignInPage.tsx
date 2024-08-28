@@ -1,9 +1,35 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import ButtonComponents from "../components/ButtonComponents";
-import { MouseEvent } from "react";
+import { ButtonHTMLAttributes, MouseEvent, useState } from "react";
+import apiClient from "../apiClient";
+interface UserData{
+  email: string,
+  password: string
+}
 
 function SignInPage() {
+  const inputClass = "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6"
+
+  const [userData, setUserData] = useState<UserData>({
+    email: "",
+    password: ""
+  })
+
+  function handleSignIn(event: React.MouseEvent<HTMLButtonElement>){
+    apiClient.Post('/api/auths/login',{userData})
+    .then((response)=>{console.log(response)})
+  }
+
+  function handleEmailChange(event: React.ChangeEvent<HTMLInputElement>){
+    const email = event.target.value
+    setUserData((prev: UserData) => ({ ...prev, email }))
+  }
+  
+  function handlePasswordChange(event: React.ChangeEvent<HTMLInputElement>){
+    const password = event.target.value
+    setUserData((prev: UserData) => ({ ...prev, password }))
+  }
   return (  
     <>
     <Navbar></Navbar>
@@ -27,9 +53,10 @@ function SignInPage() {
                   id="email"
                   name="email"
                   type="email"
-                  required
+                  required  
                   autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6"
+                  className={inputClass}
+                  onChange={handleEmailChange}
                 />
               </div>
             </div>
@@ -47,13 +74,14 @@ function SignInPage() {
                   type="password"
                   required
                   autoComplete="current-password"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6"
+                  className={inputClass}
+                  onChange={handlePasswordChange}
                 />
               </div>
             </div>
 
             <div>
-              <ButtonComponents buttonText={"Sign in"} eventHandler={()=>{console.log("hello")}}></ButtonComponents>
+              <ButtonComponents buttonText={"Sign in"} eventHandler={handleSignIn}></ButtonComponents>
             </div>
           </form>
 
