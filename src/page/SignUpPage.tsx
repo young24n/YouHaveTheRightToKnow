@@ -2,7 +2,11 @@ import { useState } from "react"
 import InputComponents from "../components/InputComponent"
 import Navbar from "../components/Navbar"
 import ButtonComponents from "../components/ButtonComponents"
-//Todo: feedback 주는 곳으로 ref 설정
+import apiClient from "../apiClient"
+//todo: feedback 주는 곳으로 ref 설정
+//todo: 요청 전 네트워크 상태 확인 후 빠른 피드백 가능한지 확인
+//(이전 프로젝트에서 원인이 확실한 경우 timeout이 5초 동안 유지되는 것은 불쾌했음 timeout을 줄이기엔 불안정한 상황 또한 고려해야함)
+
 interface UserInfo{
     email: string, 
     nickName: string
@@ -87,12 +91,23 @@ function SignUpPage() {
 
     function handleVerifyCodeCheck(event: React.MouseEvent<HTMLButtonElement>){
         //todo: 서버 전송 후 response에 따른 제어 형식으로
+        const response = apiClient.Post('/api/emails/verification-requests',{
+            email: userInfo.email
+        }).then(()=>{console.log(response)})
+        // 인증번호 보내기 -> 확인 -> 로딩 -> 성공, 실패(인증실패, 네트워크문제) -> 피드백 -> 성공 시 위쪽 전부 disable (인증 후 내용 수정 방지)
+        // 고려할게 많긴하구만 분리해서 단계적으로 보여주는 이유를 알것 같아
+        // button text도 여기서 변경해야함 send -> loading... -> check -> completed(버튼과 이메일 비활성화)
+        // alert 말고 feedback을 그냥 이용하자 
 
-        // if (verifyCode.length !== 6) {
+        // if(401 or 403) {
         //     setFeedbackForVerifyCode("인증번호가 일치하지 않습니다.")
-        // } else {
-        //     setFeedbackForVerifyCode("")
+        // } 
+        // else if(405){
+        //     setFeedbackForVerifyCode("서버와 연결 어쩌구")
         // }
+        // else if(네트워크 에러)
+        // else if(200){전송완료!}
+        // else {예상치 못한 에러}
     }
 
     function handleConfirmCheck(event: React.MouseEvent<HTMLButtonElement>) {
@@ -104,7 +119,7 @@ function SignUpPage() {
             setFeedbackForEmail("이메일 형식과 일치하지 않습니다!")
         } 
         else{
-            // 서버 피드백
+            // 서버 요청,피드백
             setFeedbackForEmail("")
         }    
     
@@ -119,7 +134,9 @@ function SignUpPage() {
             setFeedbackForNickName("닉네임은 한글과 영문만 사용할 수 있습니다.")
         } 
         else{
-            // 서버 피드백
+            // 서버 요청,피드백
+            
+            // const {data, loading, error} = useRequest(()=>{})
             setFeedbackForNickName("")
         }
     }
@@ -129,7 +146,6 @@ function SignUpPage() {
             <Navbar />
             <div className="flex flex-col justify-center space-y-7 m-auto w-[26rem] px-9 py-12 shadow-lg rounded-xl mt-8">
                 <InputComponents type="text" dataType="Email" placeholder="example@email.com" feedback={feedbackForEmail} eventHandler={handleEmailChange} />
-                <InputComponents type="text" dataType="Nick Name" placeholder="" feedback={feedbackForNickName} eventHandler={handleNickNameChange} />
                 <div className="">
                     <InputComponents type="text" dataType="Verify Code" placeholder="" feedback={feedbackForVerifyCode} eventHandler={handleVerifyCodeChange} />
                     <button
@@ -137,9 +153,10 @@ function SignUpPage() {
                         className="flex justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 m-3"
                         onClick={handleVerifyCodeCheck}
                     >
-                        {"Check"}
+                        {"Send Code"}
                     </button>
                 </div>
+                <InputComponents type="text" dataType="Nick Name" placeholder="" feedback={feedbackForNickName} eventHandler={handleNickNameChange} />
                 <InputComponents type="password" dataType="Password" placeholder="Password" feedback={feedbackForPassword} eventHandler={handlePasswordChange} />
                 <InputComponents type="password" dataType="Password Confirm" placeholder="Re-enter Password" feedback={feedbackForConfirmPassword} eventHandler={handleConfirmPasswordChange} />
                 <ButtonComponents buttonText="Confirm" eventHandler={handleConfirmCheck} disable={false} />
