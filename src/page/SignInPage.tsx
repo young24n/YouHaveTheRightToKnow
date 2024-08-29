@@ -32,7 +32,7 @@ function SignInPage() {
   }
   return (  
     <>
-    <Navbar></Navbar>
+    <Navbar visibleSubmenu={false} logoRedirectUrl="/"/>
     
     <div className="mt-8">
       <div className="flex min-h-full w-[26rem] flex-1 flex-col justify-center px-9 py-12 shadow-lg rounded-xl m-auto">

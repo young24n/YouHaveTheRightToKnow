@@ -6,6 +6,7 @@ import apiClient from "../apiClient"
 //todo: feedback 주는 곳으로 ref 설정
 //todo: 요청 전 네트워크 상태 확인 후 빠른 피드백 가능한지 확인
 //(이전 프로젝트에서 원인이 확실한 경우 timeout이 5초 동안 유지되는 것은 불쾌했음 timeout을 줄이기엔 불안정한 상황 또한 고려해야함)
+//과학적 입력(1e6)와 소수점 입력하는 경우를 막아야함
 
 interface UserInfo{
     email: string, 
@@ -143,7 +144,7 @@ function SignUpPage() {
 
     return (
         <>
-            <Navbar />
+            <Navbar visibleSubmenu={false} logoRedirectUrl="/"/>
             <div className="flex flex-col justify-center space-y-7 m-auto w-[26rem] px-9 py-12 shadow-lg rounded-xl mt-8">
                 <InputComponents type="text" dataType="Email" placeholder="example@email.com" feedback={feedbackForEmail} eventHandler={handleEmailChange} />
                 <div className="">
