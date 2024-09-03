@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar"
 import ButtonComponents from "../components/ButtonComponents"
 import apiClient from "../apiClient"
 import { Loading } from "react-daisyui"
+import { Navigate, useNavigate } from "react-router-dom"
 // todo: feedback 주는 곳으로 ref 설정
 // todo: 요청 전 네트워크 상태 확인 후 빠른 피드백 가능한지 확인
 // (이전 프로젝트에서 원인이 확실한 경우 timeout이 5초 동안 유지되는 것은 불쾌했음 timeout을 줄이기엔 불안정한 상황 또한 고려해야함)
@@ -32,12 +33,16 @@ function SignUpPage() {
         passwordCheck: "", 
         isVerify: false
     })
+    
+    const navigate = useNavigate()
+    
     const [isChecked, setIsChecked] = useState<boolean>(false)
 
     const [checkLoading, setCheckLoading] = useState<boolean>(false)
     const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
 
     const [verifyBtnText, setVerifyBtnText] = useState<string>("Send Code")
+
     //추후 기능 관련 함수는 파일을 분리하는 것이 좋아보임
     function handleEmailChange(event: React.ChangeEvent<HTMLInputElement>){
         const email = event.target.value
@@ -145,6 +150,7 @@ function SignUpPage() {
     
                 if(response.status === 200){
                     setFeedbackForVerifyCode("인증이 완료되었습니다!")
+                    setUserInfo((prev: UserInfo) => ({ ...prev, isVerify: true }))
                     setIsChecked(true)
                 }
                 else{
@@ -196,6 +202,7 @@ function SignUpPage() {
 
             setFeedbackForNickName("")
             setFeedbackForVerifyCode("")
+            navigate('/')
         }
     }
 
