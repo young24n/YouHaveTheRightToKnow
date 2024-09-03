@@ -1,16 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./src/**/*.{html,js,jsx,ts,tsx}", "./index.html"], // index.html 추가
   theme: {
     extend: {},
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('daisyui'),
-  ],
+  plugins: [require("daisyui")],
 }
 
 //여기서 커스텀 css 사용 및 수정 가능
