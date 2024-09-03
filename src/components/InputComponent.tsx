@@ -12,8 +12,12 @@ interface PropsType {
 export default function InputComponents(props: PropsType) {
     const { type, dataType, placeholder, feedback, eventHandler, disable } = props
 
-    const feedbackClass = feedback === "완벽합니다!" ? "text-green-600" : "text-red-600";
-    const borderClass = feedback === "완벽합니다!" ? "border-green-600 input-success" : feedback ? "border-red-600 input-error" : "border-gray-300 input-primary"
+    const feedbackClass = (feedback === "완벽합니다!" || feedback === "인증번호가 전송되었습니다." || feedback === "인증이 완료되었습니다!") ? "text-green-600" : "text-red-600";
+    const borderClass = (feedback === "완벽합니다!" || feedback === "인증이 완료되었습니다!")
+    ? "border-green-600 input-success" : feedback === "인증번호가 전송되었습니다." 
+    ? "border-gray-300 input-primary" : feedback 
+    ? "border-red-600 input-error" : "border-gray-300 input-primary"
+
     const inputClass = `input w-full mt-2 ${borderClass}`
 
     return (
