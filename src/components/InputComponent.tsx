@@ -18,7 +18,7 @@ export default function InputComponents(props: PropsType) {
     ? "border-gray-300 input-primary" : feedback 
     ? "border-red-600 input-error" : "border-gray-300 input-primary"
 
-    const inputClass = `input w-full mt-2 ${borderClass}`
+    const inputClass = `w-full px-4 py-2 border rounded-md item-center ${borderClass}`//크기, 디자인, 배치 변경
 
     return (
         <div className="m-auto max-w-xs w-full">
