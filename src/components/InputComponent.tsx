@@ -6,11 +6,12 @@ interface PropsType {
     placeholder: string,
     eventHandler: React.ChangeEventHandler<HTMLInputElement>,
     feedback?: string,
-    disable?: boolean
+    disable?: boolean,
+    className?: string
 }
 
 export default function InputComponents(props: PropsType) {
-    const { type, dataType, placeholder, feedback, eventHandler, disable } = props
+    const { type, dataType, placeholder, feedback, eventHandler, disable, className } = props
 
     const feedbackClass = (feedback === "완벽합니다!" || feedback === "인증번호가 전송되었습니다." || feedback === "인증이 완료되었습니다!") ? "text-green-600" : "text-red-600";
     const borderClass = (feedback === "완벽합니다!" || feedback === "인증이 완료되었습니다!")
@@ -18,7 +19,7 @@ export default function InputComponents(props: PropsType) {
     ? "border-gray-300 input-primary" : feedback 
     ? "border-red-600 input-error" : "border-gray-300 input-primary"
 
-    const inputClass = `w-full px-4 py-2 border rounded-md item-center ${borderClass}`//크기, 디자인, 배치 변경
+    const inputClass = `w-full px-4 py-2 border rounded-md item-center ${borderClass} ${className}`//크기, 디자인, 배치 변경
 
     return (
         <div className="m-auto max-w-xs w-full">
