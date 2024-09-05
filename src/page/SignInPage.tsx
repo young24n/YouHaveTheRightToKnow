@@ -81,7 +81,11 @@ function SignInPage() {
             </div>
 
             <div>
-              <ButtonComponents buttonText={"Sign in"} eventHandler={handleSignIn}></ButtonComponents>
+            <ButtonComponents
+              buttonText={"Sign In"}
+              eventHandler={handleSignIn}
+              className="w-full"
+            />
             </div>
           </form>
 
