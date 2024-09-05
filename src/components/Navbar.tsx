@@ -28,15 +28,14 @@ export default function Navbar(props: propsType){
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                        <li><a>Item 1</a></li>
+                        <li><a>About</a></li>
                         <li>
-                        <a>Parent</a>
+                        <a>정보</a>
                         <ul className="p-2">
-                            <li><a>Submenu 1</a></li>
-                            <li><a>Submenu 2</a></li>
+                            <li><a>혜택</a></li>
+                            <li><a>졸업</a></li>
                         </ul>
                         </li>
-                        <li><a>Item 3</a></li>
                     </ul>
                 </div>}
                 <Link to={logoRedirectUrl} className="btn btn-ghost text-xl">KYR</Link>
@@ -44,17 +43,16 @@ export default function Navbar(props: propsType){
             {visibleSubmenu && <>
             <div className="navbar-start hidden sm:flex sm:w-[40%]">
                 <ul className="menu menu-horizontal px-1">
-                <li><a>Item 1</a></li>
+                <li><a>About</a></li>
                 <li>
                     <details>
-                    <summary>Parent</summary>
+                    <summary>정보</summary>
                     <ul className="p-2">
-                        <li><a>Submenu 1</a></li>
-                        <li><a>Submenu 2</a></li>
+                        <li><a>혜택</a></li>
+                        <li><a>졸업</a></li>
                     </ul>
                     </details>
                 </li>
-                <li><a>Item 3</a></li>
                 </ul>
             </div>
             <div className="navbar-end sm:w-[30%] md:w-[45%]">
