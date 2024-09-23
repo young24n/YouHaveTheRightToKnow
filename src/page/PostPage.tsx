@@ -15,9 +15,17 @@ export default function PostPage(){
             <div>
                 
             </div>
-            <div className="flex space-x-2 items-center">
-                <InputComponents type={"text"} dataType={""} placeholder={""} eventHandler={()=>{}}></InputComponents>
-                <ButtonComponents buttonText={"검색"} eventHandler={()=>{}}></ButtonComponents>
+            <div className="w-full space-y-2">
+                <div className="flex justify-center space-x-1">
+                    <div className="max-w-xs w-full">
+                        <input
+                            type="text"
+                            className="w-full px-4 py-2 border rounded-md"
+                            value={kw}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <ButtonComponents buttonText="검색" eventHandler={handleSearch}></ButtonComponents>
             </div>
         </div>
         <div className="m-auto">
