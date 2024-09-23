@@ -13,6 +13,7 @@ function App() {
       <Route path='/information' element={<InformationPage/>}/>
       <Route path='/post' element={<PostPage/>}/>
       <Route path='/SignUp' element={<SignUpPage/>}/>
+      <Route path='*' element={"잘못된 경로!"}/>
     </Routes>
   )
 }
