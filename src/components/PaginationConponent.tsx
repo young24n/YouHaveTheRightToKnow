@@ -1,9 +1,9 @@
 import { Button } from "react-daisyui"
 
 interface propsType{
-    currentPage: any,
-    totalPages: any,
-    onPageChange: any
+    currentPage: number,
+    totalPages: number,
+    onPageChange: (pageNumber: number) => void
 }
 
 export default function PaginationComponent(props: propsType) {
