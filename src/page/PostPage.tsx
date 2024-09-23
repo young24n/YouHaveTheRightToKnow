@@ -5,6 +5,7 @@ import PaginationComponent from '../components/PaginationConponent'
 import ButtonComponents from '../components/ButtonComponents'
 import PostComponents from '../components/PostComponents'
 import apiClient from '../apiClient'
+import dayjs from 'dayjs'
 
 interface PostsStateType{
     id: number,
@@ -26,17 +27,18 @@ export default function PostPage() {
     
 
     const fetchPosts = async () => {
-        try {
+        try {// Warn : any Type
             const response: any = await apiClient.Get('/api/posts', {
                 params: {
                     page: page,
                     kw: kw, // 검색 키워드
                 },
             }).send()
-
+            
             const data = await response.json()
-            setPosts(data.content);{/*여기서 비동기 문제 발생 중*/}
-            setTotalPages(data.totalPages)
+            
+            setPosts(data.data.content)
+            setTotalPages(data.data.totalPages)
         } catch (error) {
             console.error('게시글을 가져오는 중 오류 발생:', error)
         }
@@ -59,16 +61,27 @@ export default function PostPage() {
         <div className="flex flex-col justify-center space-y-4 h-full">
             <Navbar visibleSubmenu={true} logoRedirectUrl="/"></Navbar>
             <div className="flex flex-col mt-4 space-y-2 h-full">
-                <div className="flex flex-col m-auto shadow-lg rounded-md h-full">
-                    {posts.map((post) => (
-                        <PostComponents
-                            id={post.id} // id 속성 전달
-                            title={post.title}
-                            date={post.timestamp.toLocaleDateString()} // 날짜 추출
-                            time={post.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} // 시간 추출 (시:분)
-                            count={post.hits}
-                        />
-                    ))}
+            <div className="flex flex-col m-auto shadow-lg rounded-md h-full">
+                <div className="flex flex-row justify-start p-3">
+                    <p className="w-80 whitespace-nowrap truncate max-w-lg cursor-pointer">제목</p>
+                    <p className="w-32 whitespace-nowrap">게시일</p>
+                    <p className="w-20 whitespace-nowrap">시간</p>
+                    <p className="w-10 whitespace-nowrap">조회수</p>
+                </div>
+                <hr></hr>
+                {posts.map((post) => {
+                    const postDate = new Date(post.timestamp); // 문자열을 Date 객체로 변환
+                    return (
+                    <PostComponents
+                        key={post.id}
+                        id={post.id} // id 속성 전달
+                        title={post.title}
+                        date={dayjs(postDate).format("YYYY.MM.DD")} // 날짜 추출
+                        time={dayjs(postDate).format("HH:MM")} // 시간 추출 (시:분)
+                        count={post.hits}
+                    />
+                    );
+                })}
                 </div>
             </div>
             <div className="w-full space-y-2">
